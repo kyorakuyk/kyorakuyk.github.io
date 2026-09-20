@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'zh-CN' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ page.description | default: site.description | escape }}">
+    <link rel="canonical" href="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+    {% feed_meta %}
+    <title>{{ page.title | escape }} — {{ site.title | escape }}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner page-width">
+        <a class="brand" href="{{ '/' | relative_url }}" aria-label="Kyorakuyk home">
+          <span class="brand__mark">K/</span>
+          <span class="brand__name">KYORAKUYK</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="{{ '/' | relative_url }}#notes">Notes</a>
+          <a href="{{ '/about/' | relative_url }}">About</a>
+          <a href="https://github.com/kyorakuyk" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="post-shell page-width">
+      <a class="back-link" href="{{ '/' | relative_url }}#notes">← Back to notes</a>
+      <article class="post">
+        <header class="post__header">
+          <p class="eyebrow">NOTE / {{ page.date | date: '%Y.%m.%d' }}</p>
+          <h1>{{ page.title }}</h1>
+          {% if page.description %}<p class="post__dek">{{ page.description }}</p>{% endif %}
+          {% if page.tags %}
+            <ul class="tag-list" aria-label="Tags">
+              {% for tag in page.tags %}<li>{{ tag }}</li>{% endfor %}
+            </ul>
+          {% endif %}
+        </header>
+        <div class="post__content">
+          {{ content }}
+        </div>
+        <footer class="post__footer">
+          <span>End of note</span>
+          <a href="{{ '/' | relative_url }}#notes">More notes ↗</a>
+        </footer>
+      </article>
+    </main>
+
+    <footer class="site-footer page-width">
+      <span>© {{ site.time | date: '%Y' }} Kyorakuyk</span>
+      <span>Written in Markdown · Published on GitHub Pages</span>
+    </footer>
+  </body>
+</html>

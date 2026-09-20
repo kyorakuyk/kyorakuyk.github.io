@@ -1,0 +1,32 @@
+title: Kyorakuyk — Notes
+description: Notes on tools, interfaces, and complex systems.
+url: "https://kyorakuyk.github.io"
+baseurl: ""
+lang: zh-CN
+timezone: Asia/Shanghai
+markdown: kramdown
+permalink: /notes/:title/
+
+plugins:
+  - jekyll-feed
+
+author:
+  name: kyorakuyk
+  url: "https://github.com/kyorakuyk"
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+
+feed:
+  path: /feed.xml
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      author: kyorakuyk

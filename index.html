@@ -1,0 +1,76 @@
+---
+layout: default
+title: Notes
+description: Notes on tools, interfaces, and complex systems.
+---
+
+<main>
+  <section class="hero page-width">
+    <div class="hero__copy">
+      <p class="eyebrow">PERSONAL NOTES / 01</p>
+      <h1>Make something real.<br><em>Look twice.</em></h1>
+      <p class="hero__lede">这里记录我对工具、界面和复杂系统的思考，也记录那些还没有被想明白的问题。</p>
+      <div class="hero__actions">
+        <a class="button button--primary" href="#notes">Read the notes <span aria-hidden="true">↘</span></a>
+        <a class="text-link" href="{{ '/about/' | relative_url }}">About this site <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <aside class="hero__aside" aria-label="Current focus">
+      <p class="aside-label">Current focus</p>
+      <ul class="focus-list">
+        <li>Developer tools</li>
+        <li>Plugin systems</li>
+        <li>Desktop software</li>
+      </ul>
+      <p class="aside-note">A small, independent writing space. No dashboard, no feed to keep up with.</p>
+    </aside>
+  </section>
+
+  <section class="notes-section page-width" id="notes" aria-labelledby="notes-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">02 / WRITING</p>
+        <h2 id="notes-title">Notes in progress.</h2>
+      </div>
+      <p>工程实践、阅读、失败，以及下一次尝试。</p>
+    </div>
+
+    {% if site.posts.size > 0 %}
+      <ol class="post-list">
+        {% for post in site.posts limit: 8 %}
+          <li class="post-list__item">
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+            <div class="post-list__body">
+              <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+              {% if post.description %}<p>{{ post.description }}</p>{% endif %}
+            </div>
+            <span class="post-list__arrow" aria-hidden="true">↗</span>
+          </li>
+        {% endfor %}
+      </ol>
+    {% else %}
+      <div class="empty-state">
+        <span class="empty-state__index">00</span>
+        <div>
+          <h3>The first note is not published yet.</h3>
+          <p>把 Markdown 文件放进 <code>_posts/</code>，提交后它就会出现在这里。</p>
+        </div>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="work-section page-width" aria-labelledby="work-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">03 / PUBLIC WORK</p>
+        <h2 id="work-title">Things I have made.</h2>
+      </div>
+      <p>Writing is the main surface. Projects are the evidence underneath it.</p>
+    </div>
+    <ul class="work-list">
+      <li><a href="https://github.com/kyorakuyk/dsh-hotreload-plugin-manager" target="_blank" rel="noreferrer"><span>dsh-hotreload-plugin-manager</span><span>↗</span></a></li>
+      <li><a href="https://github.com/kyorakuyk/dsh-cost-meter" target="_blank" rel="noreferrer"><span>dsh-cost-meter</span><span>↗</span></a></li>
+      <li><a href="https://github.com/kyorakuyk/dsh-desktop" target="_blank" rel="noreferrer"><span>dsh-desktop</span><span>↗</span></a></li>
+    </ul>
+  </section>
+</main>
