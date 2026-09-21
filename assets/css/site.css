@@ -157,10 +157,9 @@ code { padding: 0.1em 0.35em; background: var(--paper-deep); font-size: 0.9em; }
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('../img/splash-bg.jpg');
   background-size: cover; background-position: center; border-right: none;
   transition: width 0.7s cubic-bezier(0.77, 0, 0.175, 1); height: 100vh; position: sticky;
-  top: 0; z-index: 100; color: #fff; overflow: hidden;
+  top: 0; z-index: 100; color: #fff; overflow: hidden; cursor: grab;
 }
-body.state-splash #sidebar { cursor: grab; }
-body.state-splash #sidebar:active { cursor: grabbing; }
+#sidebar:active { cursor: grabbing; }
 
 .sidebar-inner {
   display: flex; flex-direction: column; height: 100%; padding: 40px 30px; width: 100%;
@@ -171,8 +170,8 @@ body.state-splash #sidebar:active { cursor: grabbing; }
 .sidebar-brand { margin-bottom: 40px; font-weight: 750; letter-spacing: 0.14em; font-size: 0.85rem; }
 .sidebar-brand a { text-decoration: none; color: #fff; }
 .sidebar-nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
-.sidebar-nav a { text-decoration: none; font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); transition: color 0.2s; }
-.sidebar-nav a:hover { color: #fff; }
+.sidebar-nav a { text-decoration: none; font-size: 1.4rem; font-weight: bold; font-family: var(--serif); color: rgba(255, 255, 255, 0.7); border-bottom: 2px solid transparent; padding-bottom: 4px; transition: color 0.2s, border-color 0.2s; }
+.sidebar-nav a:hover { color: #fff; border-color: #fff; }
 .sidebar-footer { margin-top: auto; color: rgba(255, 255, 255, 0.5); font-size: 0.85rem; display: flex; flex-direction: column; gap: 16px; }
 
 .social-nav { display: flex; gap: 18px; align-items: center; }

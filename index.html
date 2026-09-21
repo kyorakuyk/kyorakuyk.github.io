@@ -5,16 +5,16 @@ description: Notes on tools, interfaces, and complex systems.
 ---
 
 <main>
-  <!-- View 1: 鏋佺畝涓婚〉 (Hero) -->
+  <!-- View 1: 极简主页 (Hero) -->
   <section class="hero page-view" id="view-hero">
     <div class="page-width hero-inner">
       <div class="hero__copy">
         <p class="eyebrow">PERSONAL NOTES / 01</p>
         <h1>Make something real.<br><em>Look twice.</em></h1>
-        <p class="hero__lede">杩欓噷璁板綍鎴戝宸ュ叿銆佺晫闈㈠拰澶嶆潅绯荤粺鐨勬€濊€冿紝涔熻褰曢偅浜涜繕娌℃湁琚兂鏄庣櫧鐨勯棶棰樸€?/p>
+        <p class="hero__lede">这里记录我对工具、界面和复杂系统的思考，也记录那些还没有被想明白的问题。</p>
         <div class="hero__actions">
-          <button class="button button--primary" id="btn-read-notes">Read the notes <span aria-hidden="true">鈫?/span></button>
-          <a class="text-link" href="{{ '/about/' | relative_url }}">About this site <span aria-hidden="true">鈫?/span></a>
+          <button class="button button--primary" id="btn-read-notes">Read the notes <span aria-hidden="true">&#x2198;</span></button>
+          <a class="text-link" href="{{ '/about/' | relative_url }}">About this site <span aria-hidden="true">&#x2197;</span></a>
         </div>
       </div>
       <aside class="hero__aside" aria-label="Current focus">
@@ -29,7 +29,7 @@ description: Notes on tools, interfaces, and complex systems.
     </div>
   </section>
 
-  <!-- View 2: 绗旇鍒楄〃涓?Tag 绛涢€?-->
+  <!-- View 2: 笔记列表与 Tag 筛选 -->
   <section class="notes-section page-view" id="view-notes" aria-labelledby="notes-title">
     <div class="page-width">
       <div class="section-heading">
@@ -37,10 +37,10 @@ description: Notes on tools, interfaces, and complex systems.
           <p class="eyebrow">02 / WRITING</p>
           <h2 id="notes-title">Notes in progress.</h2>
         </div>
-        <p>宸ョ▼瀹炶返銆侀槄璇汇€佸け璐ワ紝浠ュ強涓嬩竴娆″皾璇曘€?/p>
+        <p>工程实践、阅读、失败，以及下一次尝试。</p>
       </div>
 
-      <!-- Tag 绛涢€夊櫒 UI -->
+      <!-- Tag 筛选器 UI -->
       <div class="tag-filter-container">
         <div class="tag-list" id="tag-list">
           {% assign all_tags = "" | split: "," %}
@@ -51,14 +51,14 @@ description: Notes on tools, interfaces, and complex systems.
         </div>
         <div class="filter-controls">
           <span class="filter-label">Mode:</span>
-          <button id="toggle-filter-mode" class="mode-btn" title="Click to toggle AND/OR">AND (浜ら泦)</button>
+          <button id="toggle-filter-mode" class="mode-btn" title="Click to toggle AND/OR">AND (交集)</button>
         </div>
       </div>
 
       {% if site.posts.size > 0 %}
         <ol class="post-list" id="post-list">
           {% for post in site.posts %}
-            <!-- 浣跨敤 Liquid 灏?post 鐨?tags 杞垚浠ラ€楀彿鍒嗛殧鐨勫瓧绗︿覆 -->
+            <!-- 使用 Liquid 将 post 的 tags 转成以逗号分隔的字符串 -->
             <li class="post-list__item" data-tags="{{ post.tags | join: ',' | downcase }}">
               <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
               <div class="post-list__body">
@@ -70,7 +70,7 @@ description: Notes on tools, interfaces, and complex systems.
                   {% endfor %}
                 </div>
               </div>
-              <span class="post-list__arrow" aria-hidden="true">鈫?/span>
+              <span class="post-list__arrow" aria-hidden="true">&#x2197;</span>
             </li>
           {% endfor %}
         </ol>
@@ -79,12 +79,10 @@ description: Notes on tools, interfaces, and complex systems.
           <span class="empty-state__index">00</span>
           <div>
             <h3>The first note is not published yet.</h3>
-            <p>鎶?Markdown 鏂囦欢鏀捐繘 <code>_posts/</code>锛屽苟涓斿姞涓?tags 灞炴€с€?/p>
+            <p>把 Markdown 文件放进 <code>_posts/</code>，并且加上 tags 属性。</p>
           </div>
         </div>
       {% endif %}
-
-      
 
     </div>
   </section>
