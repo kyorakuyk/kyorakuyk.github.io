@@ -9,26 +9,16 @@
     {% feed_meta %}
     <title>{{ page.title | default: site.title | escape }}</title>
   </head>
-  <body>
-    <header class="site-header">
-      <div class="site-header__inner page-width">
-        <a class="brand" href="{{ '/' | relative_url }}" aria-label="Kyorakuyk home">
-          <span class="brand__mark">K/</span>
-          <span class="brand__name">KYORAKUYK</span>
-        </a>
-        <nav class="site-nav" aria-label="Primary navigation">
-          <a href="{{ '/' | relative_url }}#notes">Notes</a>
-          <a href="{{ '/about/' | relative_url }}">About</a>
-          <a href="https://github.com/kyorakuyk" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-        </nav>
-      </div>
-    </header>
+  <body class="{% if page.url == '/' %}is-home state-splash{% else %}is-page state-sidebar{% endif %}">
+    <div id="layout-wrapper">
+      {% include sidebar.html %}
+      
+      <main id="main-content">
+        {{ content }}
+      </main>
+    </div>
 
-    {{ content }}
-
-    <footer class="site-footer page-width">
-      <span>© {{ site.time | date: '%Y' }} Kyorakuyk</span>
-      <span>Written in Markdown · Published on GitHub Pages</span>
-    </footer>
+    <script src="{{ '/assets/js/interaction.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/tag-filter.js' | relative_url }}"></script>
   </body>
 </html>

@@ -5,7 +5,7 @@ permalink: /about/
 description: About Kyorakuyk and this independent writing site.
 ---
 
-<main class="page-width about-shell">
+<div class="page-width about-shell">
   <p class="eyebrow">ABOUT / 04</p>
   <h1>A small place for<br><em>careful thinking.</em></h1>
   <div class="about-grid">
@@ -23,4 +23,4 @@ description: About Kyorakuyk and this independent writing site.
       </dl>
     </aside>
   </div>
-</main>
+</div>
