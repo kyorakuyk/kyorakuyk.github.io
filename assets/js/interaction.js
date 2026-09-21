@@ -183,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function enterSplash() {
       body.classList.add('state-splash');
       body.classList.remove('state-sidebar');
-      switchView(false);
     }
 
     function onDragStart(e) {
