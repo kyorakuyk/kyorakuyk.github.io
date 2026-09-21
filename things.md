@@ -15,9 +15,9 @@ description: Things I have made.
       <p>Writing is the main surface. Projects are the evidence underneath it.</p>
     </div>
     <ul class="work-list">
-      <li><a href="https://github.com/kyorakuyk/dsh-hotreload-plugin-manager" target="_blank" rel="noreferrer"><span>dsh-hotreload-plugin-manager</span><span>¨J</span></a></li>
-      <li><a href="https://github.com/kyorakuyk/dsh-cost-meter" target="_blank" rel="noreferrer"><span>dsh-cost-meter</span><span>¨J</span></a></li>
-      <li><a href="https://github.com/kyorakuyk/dsh-desktop" target="_blank" rel="noreferrer"><span>dsh-desktop</span><span>¨J</span></a></li>
+      <li><a href="https://github.com/kyorakuyk/dsh-hotreload-plugin-manager" target="_blank" rel="noreferrer"><span>dsh-hotreload-plugin-manager</span><span>&#x2197;</span></a></li>
+      <li><a href="https://github.com/kyorakuyk/dsh-cost-meter" target="_blank" rel="noreferrer"><span>dsh-cost-meter</span><span>&#x2197;</span></a></li>
+      <li><a href="https://github.com/kyorakuyk/dsh-desktop" target="_blank" rel="noreferrer"><span>dsh-desktop</span><span>&#x2197;</span></a></li>
     </ul>
   </section>
 </div>

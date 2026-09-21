@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Scroll wheel exits splash
   window.addEventListener('wheel', () => {
     if (body.classList.contains('state-splash') && window.innerWidth > 768) {
       exitSplash();
@@ -68,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. Click handlers (event delegation for Pjax compatibility)
   // ==========================================================================
   document.addEventListener('click', (e) => {
-    // "Read the notes" button
     const btnReadNotes = e.target.closest('#btn-read-notes');
     if (btnReadNotes && body.classList.contains('is-home')) {
       e.preventDefault();
@@ -77,19 +75,16 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Notes nav link — should exit splash and switch to notes view directly
     const navNotesLink = e.target.closest('.nav-notes');
     if (navNotesLink) {
       e.preventDefault();
       if (body.classList.contains('is-home')) {
-        // Already on home page, just exit splash and switch view
         exitSplash();
         setTimeout(() => switchView(true), 100);
       } else {
-        // On another page, use Pjax to load home, then switch to notes
         const homeUrl = navNotesLink.href.split('#')[0] || '/';
         window.history.pushState({ url: homeUrl }, '', homeUrl);
-        loadPage(homeUrl, true); // pass flag to auto-switch to notes
+        loadPage(homeUrl, true);
       }
       return;
     }
@@ -126,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.title = doc.title;
         body.className = doc.body.className;
 
-        // Never re-enter splash via Pjax
         body.classList.remove('state-splash');
         body.classList.add('state-sidebar');
 
@@ -136,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         mainContent.style.opacity = '1';
 
-        // If we came from Notes link, auto-switch to notes view after content loads
         if (autoSwitchToNotes && body.classList.contains('is-home')) {
           setTimeout(() => switchView(true), 400);
         }
@@ -147,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Intercept link clicks for Pjax
   document.addEventListener('click', (e) => {
     const link = e.target.closest('a');
     if (!link) return;
@@ -155,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (link.target === '_blank') return;
     if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
 
-    // Skip .nav-notes — handled above
     if (link.classList.contains('nav-notes')) return;
 
     const href = link.getAttribute('href');
@@ -164,10 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const targetUrl = new URL(link.href);
     const currentUrl = new URL(window.location.href);
 
-    // Skip XML files (RSS feed)
     if (targetUrl.pathname.endsWith('.xml')) return;
-
-    // Skip same-page hash links
     if (currentUrl.pathname === targetUrl.pathname && targetUrl.hash) return;
 
     if (link.href !== window.location.href) {
@@ -190,17 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastTime = 0;
     let velocity = 0;
     let isDragging = false;
-    let isSidebarState = false; // keep track of start state
+    let isSidebarState = false;
 
     function enterSplash() {
       body.classList.add('state-splash');
       body.classList.remove('state-sidebar');
-      // Always reset view to hero when opening splash
       switchView(false);
     }
 
     function onDragStart(e) {
-      // Don't start drag on interactive elements
       if (e.target.closest('a, button')) return;
 
       isDragging = true;
@@ -219,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const now = Date.now();
       const dt = now - lastTime;
 
-      // Track velocity (px/ms)
       if (dt > 0) {
         velocity = (clientX - lastX) / dt;
       }
@@ -229,13 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const diff = clientX - startX;
       
       if (!isSidebarState) {
-        // We are in state-splash (full width). Can only drag left (diff < 0)
         if (diff < 0) {
           const newWidth = Math.max(280, window.innerWidth + diff);
           sidebar.style.width = newWidth + 'px';
         }
       } else {
-        // We are in state-sidebar (280px). Can only drag right (diff > 0)
         if (diff > 0) {
           const newWidth = Math.min(window.innerWidth, 280 + diff);
           sidebar.style.width = newWidth + 'px';
@@ -247,17 +230,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isDragging) return;
       isDragging = false;
       sidebar.style.transition = 'width 0.7s cubic-bezier(0.77, 0, 0.175, 1)';
-      sidebar.style.width = ''; // Let CSS take over
+      sidebar.style.width = '';
 
       const diff = lastX - startX;
       
       if (!isSidebarState) {
-        // Exit splash if dragged far enough left OR flicked fast enough
         if (diff < -80 || velocity < -0.5) {
           exitSplash();
         }
       } else {
-        // Enter splash if dragged far enough right OR flicked fast enough
         if (diff > 80 || velocity > 0.5) {
           enterSplash();
         }
