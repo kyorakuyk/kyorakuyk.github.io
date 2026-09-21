@@ -117,7 +117,14 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, 0);
         mainContent.scrollTo(0, 0);
         
-        if (window.initTagFilter) window.initTagFilter();
+                if (window.initTagFilter) window.initTagFilter();
+        
+        // Auto open notes view if navigated to /#notes
+        if ((url === '/' || url.endsWith('/')) && window.location.hash === '#notes') {
+          setTimeout(() => {
+            if (typeof switchView === 'function') switchView(true);
+          }, 400); // Wait for fade in
+        }
         
         mainContent.style.opacity = '1';
       }
@@ -135,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ignore pure hash links on the same page
     const currentUrl = new URL(window.location.href);
     const targetUrl = new URL(link.href);
-    if (currentUrl.pathname === targetUrl.pathname && targetUrl.hash) return;
+        if (currentUrl.pathname === targetUrl.pathname && targetUrl.hash) return;
+    if (targetUrl.pathname.endsWith('.xml')) return;
 
     if (link.href !== window.location.href) {
       e.preventDefault();
@@ -190,3 +198,4 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('touchend', onDragEnd);
   }
 });
+
