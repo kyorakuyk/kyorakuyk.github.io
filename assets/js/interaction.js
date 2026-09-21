@@ -3,6 +3,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.getElementById('sidebar');
   const mainContent = document.getElementById('main-content');
 
+  function saveState() {
+    sessionStorage.setItem('splashClosed', body.classList.contains('state-sidebar'));
+    sessionStorage.setItem('notesActive', body.classList.contains('view-notes-active'));
+  }
+
+  function applyPersistedState() {
+    if (body.classList.contains('is-home')) {
+      const splashClosed = sessionStorage.getItem('splashClosed') === 'true';
+      const notesActive = sessionStorage.getItem('notesActive') === 'true';
+
+      if (splashClosed) {
+        body.classList.remove('state-splash');
+        body.classList.add('state-sidebar');
+      } else {
+        body.classList.add('state-splash');
+        body.classList.remove('state-sidebar');
+      }
+
+      if (notesActive) {
+        body.classList.add('view-notes-active');
+        const viewNotes = document.getElementById('view-notes');
+        if (viewNotes) {
+          const savedScroll = sessionStorage.getItem('notesScrollTop');
+          if (savedScroll) viewNotes.scrollTop = parseInt(savedScroll, 10);
+        }
+      } else {
+        body.classList.remove('view-notes-active');
+      }
+    } else {
+      body.classList.remove('state-splash');
+      body.classList.add('state-sidebar');
+    }
+  }
+
+  // Apply state on initial page load
+  applyPersistedState();
+
+
   // ==========================================================================
   // 1. Splash Screen Transition
   // ==========================================================================
@@ -10,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (body.classList.contains('state-splash')) {
       body.classList.remove('state-splash');
       body.classList.add('state-sidebar');
+      saveState();
     }
   }
 
@@ -26,6 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let accumulatedDelta = 0;
   const SCROLL_THRESHOLD = 80;
 
+  document.addEventListener('scroll', (e) => {
+    if (e.target.id === 'view-notes') {
+      sessionStorage.setItem('notesScrollTop', e.target.scrollTop);
+    }
+  }, true);
+
+
   function switchView(toNotes) {
     if (isAnimating) return;
     if (toNotes) {
@@ -33,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       body.classList.remove('view-notes-active');
     }
+    saveState();
     isAnimating = true;
     setTimeout(() => {
       isAnimating = false;
@@ -134,21 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
         document.title = doc.title;
         body.className = doc.body.className;
 
-        body.classList.remove('state-splash');
-        body.classList.add('state-sidebar');
-
-        if (autoSwitchToNotes && body.classList.contains('is-home')) {
-          body.classList.add('view-notes-active');
+        if (autoSwitchToNotes) {
+          sessionStorage.setItem('splashClosed', 'true');
+          sessionStorage.setItem('notesActive', 'true');
         }
-
+        
+        applyPersistedState();
         mainContent.scrollTo(0, 0);
-
-        if (body.classList.contains('is-home') && body.classList.contains('view-notes-active')) {
-          const viewNotes = document.getElementById('view-notes');
-          if (viewNotes) {
-            viewNotes.scrollTop = savedNotesScrollTop;
-          }
-        }
 
         if (window.initTagFilter) window.initTagFilter();
 
@@ -203,6 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function enterSplash() {
       body.classList.add('state-splash');
       body.classList.remove('state-sidebar');
+      saveState();
     }
 
     function onDragStart(e) {

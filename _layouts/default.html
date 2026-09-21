@@ -10,6 +10,18 @@
     <title>{{ page.title | default: site.title | escape }}</title>
   </head>
   <body class="{% if page.url == '/' %}is-home state-splash{% else %}is-page state-sidebar{% endif %}">
+    <script>
+      // Prevent FOUC: instantly restore layout state on load
+      if (document.body.classList.contains('is-home')) {
+        if (sessionStorage.getItem('splashClosed') === 'true') {
+          document.body.classList.remove('state-splash');
+          document.body.classList.add('state-sidebar');
+        }
+        if (sessionStorage.getItem('notesActive') === 'true') {
+          document.body.classList.add('view-notes-active');
+        }
+      }
+    </script>
     <div id="layout-wrapper">
       {% include sidebar.html %}
       
