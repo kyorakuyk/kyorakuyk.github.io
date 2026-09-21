@@ -80,7 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       if (body.classList.contains('is-home')) {
         exitSplash();
-        setTimeout(() => switchView(true), 100);
+        if (body.classList.contains('view-notes-active')) {
+          switchView(false);
+        } else {
+          switchView(true);
+        }
       } else {
         const homeUrl = navNotesLink.href.split('#')[0] || '/';
         window.history.pushState({ url: homeUrl }, '', homeUrl);
@@ -94,9 +98,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. Pjax Seamless Page Transitions
   // ==========================================================================
   const cache = new Map();
+  let savedNotesScrollTop = 0;
 
   async function loadPage(url, autoSwitchToNotes) {
     if (!mainContent) return;
+
+    if (body.classList.contains('is-home')) {
+      const viewNotes = document.getElementById('view-notes');
+      if (viewNotes) {
+        savedNotesScrollTop = viewNotes.scrollTop;
+      }
+    }
+
     mainContent.style.opacity = '0';
 
     try {
@@ -124,15 +137,22 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.remove('state-splash');
         body.classList.add('state-sidebar');
 
+        if (autoSwitchToNotes && body.classList.contains('is-home')) {
+          body.classList.add('view-notes-active');
+        }
+
         mainContent.scrollTo(0, 0);
+
+        if (body.classList.contains('is-home') && body.classList.contains('view-notes-active')) {
+          const viewNotes = document.getElementById('view-notes');
+          if (viewNotes) {
+            viewNotes.scrollTop = savedNotesScrollTop;
+          }
+        }
 
         if (window.initTagFilter) window.initTagFilter();
 
         mainContent.style.opacity = '1';
-
-        if (autoSwitchToNotes && body.classList.contains('is-home')) {
-          setTimeout(() => switchView(true), 400);
-        }
       }
     } catch (error) {
       console.error('Pjax failed:', error);
