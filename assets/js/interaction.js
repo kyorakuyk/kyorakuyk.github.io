@@ -190,10 +190,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastTime = 0;
     let velocity = 0;
     let isDragging = false;
-    let rafId = null;
+    let isSidebarState = false; // keep track of start state
+
+    function enterSplash() {
+      body.classList.add('state-splash');
+      body.classList.remove('state-sidebar');
+      // Always reset view to hero when opening splash
+      switchView(false);
+    }
 
     function onDragStart(e) {
-      if (!body.classList.contains('state-splash')) return;
       // Don't start drag on interactive elements
       if (e.target.closest('a, button')) return;
 
@@ -203,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
       lastX = clientX;
       lastTime = Date.now();
       velocity = 0;
+      isSidebarState = !body.classList.contains('state-splash');
       sidebar.style.transition = 'none';
     }
 
@@ -220,9 +227,19 @@ document.addEventListener('DOMContentLoaded', () => {
       lastTime = now;
 
       const diff = clientX - startX;
-      if (diff < 0) {
-        const newWidth = Math.max(280, window.innerWidth + diff);
-        sidebar.style.width = newWidth + 'px';
+      
+      if (!isSidebarState) {
+        // We are in state-splash (full width). Can only drag left (diff < 0)
+        if (diff < 0) {
+          const newWidth = Math.max(280, window.innerWidth + diff);
+          sidebar.style.width = newWidth + 'px';
+        }
+      } else {
+        // We are in state-sidebar (280px). Can only drag right (diff > 0)
+        if (diff > 0) {
+          const newWidth = Math.min(window.innerWidth, 280 + diff);
+          sidebar.style.width = newWidth + 'px';
+        }
       }
     }
 
@@ -230,12 +247,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isDragging) return;
       isDragging = false;
       sidebar.style.transition = 'width 0.7s cubic-bezier(0.77, 0, 0.175, 1)';
-      sidebar.style.width = '';
+      sidebar.style.width = ''; // Let CSS take over
 
       const diff = lastX - startX;
-      // Exit splash if: dragged far enough OR flicked fast enough
-      if (diff < -80 || velocity < -0.5) {
-        exitSplash();
+      
+      if (!isSidebarState) {
+        // Exit splash if dragged far enough left OR flicked fast enough
+        if (diff < -80 || velocity < -0.5) {
+          exitSplash();
+        }
+      } else {
+        // Enter splash if dragged far enough right OR flicked fast enough
+        if (diff > 80 || velocity > 0.5) {
+          enterSplash();
+        }
       }
     }
 
