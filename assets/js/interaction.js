@@ -249,6 +249,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target.closest('a, button')) return;
 
       isDragging = true;
+      body.classList.add('is-dragging');
       const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
       startX = clientX;
       lastX = clientX;
@@ -288,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function onDragEnd() {
       if (!isDragging) return;
       isDragging = false;
+      body.classList.remove('is-dragging');
       sidebar.style.transition = 'width 0.7s cubic-bezier(0.77, 0, 0.175, 1)';
       sidebar.style.width = '';
 

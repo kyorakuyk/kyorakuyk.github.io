@@ -248,3 +248,5 @@ body.state-splash #main-content { opacity: 0; pointer-events: none; position: ab
   .is-home.view-notes-active #view-hero { opacity: 1; pointer-events: auto; transform: none; }
   .is-home #main-content { height: auto; overflow: visible; }
 }
+body.is-dragging { user-select: none; -webkit-user-select: none; }
+

@@ -1,6 +1,6 @@
 # kyorakuyk.github.io
 
-独立的 GitHub Pages 写作站点。这个仓库使用 Jekyll + Markdown，与 `notes-in-my-life` Astro 项目分开维护。
+独立的 GitHub Pages 写作站点。这个仓库使用 Jekyll + Markdown，与另一个Astro 项目分开维护。
 
 ## 结构
 
