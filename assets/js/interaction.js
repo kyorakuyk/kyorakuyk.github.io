@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const body = document.body;
   const splashQuote = document.querySelector('.splash-quote');
   const btnReadNotes = document.getElementById('btn-read-notes');
-  const navNotes = document.getElementById('nav-notes');
+  
 
   // 1. Splash Screen Transition
   function exitSplash() {
@@ -83,18 +83,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  if (navNotes) {
-    navNotes.addEventListener('click', (e) => {
-      if (body.classList.contains('is-home')) {
-        e.preventDefault();
-        exitSplash();
-        switchView(true);
-      }
+  // Delegate clicks for .nav-notes
+  document.addEventListener('click', (e) => {
+    const navNotesLink = e.target.closest('.nav-notes');
+    if (navNotesLink && body.classList.contains('is-home')) {
+      e.preventDefault();
+      exitSplash();
+      switchView(true);
+    }
+  });
     });
   }
 
   // ==========================================================================
-  // 3. Pjax Seamless Page Transitions (无刷新淡入淡出)
+  // 3. Pjax Seamless Page Transitions (无刷新淡入淡�?
   // ==========================================================================
   
   const mainContent = document.getElementById('main-content');
@@ -171,6 +173,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = link.href;
     
     // Only push state if URL is different
+        // Ignore if it's the exact same path and just different hash
+    const currentUrl = new URL(window.location.href);
+    const targetUrl = new URL(url);
+    if (currentUrl.pathname === targetUrl.pathname && targetUrl.hash) {
+      // Just a hash jump on the same page, do not pjax
+      return;
+    }
+    
     if (url !== window.location.href) {
       window.history.pushState({ url: url }, '', url);
       loadPage(url);
@@ -182,4 +192,56 @@ document.addEventListener('DOMContentLoaded', () => {
     loadPage(window.location.href);
   });
 
+
+  // ==========================================================================
+  // 4. Sidebar Drag / Swipe to Reveal (Desktop & Mobile)
+  // ==========================================================================
+  const sidebar = document.getElementById('sidebar');
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+
+  function onDragStart(e) {
+    if (!body.classList.contains('state-splash')) return;
+    isDragging = true;
+    startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    sidebar.style.transition = 'none'; // Disable transition while dragging
+  }
+
+  function onDragMove(e) {
+    if (!isDragging) return;
+    currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+    const diff = currentX - startX;
+    
+    // Only allow dragging left
+    if (diff < 0) {
+      // Calculate width percentage based on drag
+      const newWidth = Math.max(280, window.innerWidth + diff);
+      sidebar.style.width = newWidth + 'px';
+    }
+  }
+
+  function onDragEnd(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    sidebar.style.transition = 'width 0.7s cubic-bezier(0.77, 0, 0.175, 1)';
+    sidebar.style.width = ''; // Reset inline style
+    
+    const diff = currentX - startX;
+    // If dragged more than 100px left, exit splash
+    if (diff < -100) {
+      exitSplash();
+    }
+  }
+
+  sidebar.addEventListener('mousedown', onDragStart);
+  window.addEventListener('mousemove', onDragMove);
+  window.addEventListener('mouseup', onDragEnd);
+  
+  sidebar.addEventListener('touchstart', onDragStart, {passive: true});
+  window.addEventListener('touchmove', onDragMove, {passive: true});
+  window.addEventListener('touchend', onDragEnd);
+
 });
+
+

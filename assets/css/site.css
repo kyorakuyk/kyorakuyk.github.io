@@ -156,6 +156,7 @@ code { padding: 0.1em 0.35em; background: var(--paper-deep); font-size: 0.9em; }
   overflow: hidden;
 }
 
+
 #sidebar {
   flex-shrink: 0;
   width: 280px;
@@ -165,14 +166,14 @@ code { padding: 0.1em 0.35em; background: var(--paper-deep); font-size: 0.9em; }
   background-position: center;
   border-right: none;
   transition: width 0.7s cubic-bezier(0.77, 0, 0.175, 1);
-  display: flex;
-  flex-direction: column;
   height: 100vh;
   position: sticky;
   top: 0;
   z-index: 100;
   color: #fff;
+  cursor: grab; /* For dragging indication */
 }
+#sidebar:active { cursor: grabbing; }
 
 .sidebar-inner {
   display: flex;
@@ -181,95 +182,99 @@ code { padding: 0.1em 0.35em; background: var(--paper-deep); font-size: 0.9em; }
   padding: 40px 30px;
   width: 100%;
   box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.6s ease;
 }
 
-.sidebar-brand {
-  margin-bottom: 40px;
-  font-weight: 750;
-  letter-spacing: 0.14em;
-  font-size: 0.85rem;
+/* Base Sidebar Content */
+.sidebar-content {
+  opacity: 1;
+  pointer-events: auto;
 }
+.sidebar-brand { margin-bottom: 40px; font-weight: 750; letter-spacing: 0.14em; font-size: 0.85rem; }
 .sidebar-brand a { text-decoration: none; color: #fff; }
+.sidebar-nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+.sidebar-nav a { text-decoration: none; font-size: 1.1rem; color: rgba(255, 255, 255, 0.7); transition: color 0.2s; }
+.sidebar-nav a:hover { color: #fff; }
+.sidebar-footer { margin-top: auto; color: rgba(255, 255, 255, 0.5); font-size: 0.85rem;}
 
-.sidebar-nav ul {
+/* Splash Content */
+.splash-content {
+  opacity: 0;
+  pointer-events: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.splash-quote h1 {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  line-height: 1.1;
+  font-weight: 400;
+  margin: 0 0 40px 0;
+  color: #fff;
+}
+.splash-quote h1 span {
+  color: #ffb4a2;
+  font-style: italic;
+}
+
+.splash-nav ul {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 }
-.sidebar-nav a {
+.splash-nav a {
   text-decoration: none;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.7);
-  transition: color 0.2s;
-}
-.sidebar-nav a:hover {
+  font-size: 1.6rem;
+  font-weight: bold;
+  font-family: var(--serif);
   color: #fff;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 4px;
+  transition: border-color 0.2s;
+}
+.splash-nav a:hover {
+  border-color: #fff;
 }
 
-.sidebar-footer {
-  margin-top: auto;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-/* Splash State */
+/* Splash State Override */
 body.state-splash #sidebar {
   width: 100vw;
   background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url('../img/splash-bg.jpg');
 }
-
-body.state-splash .sidebar-inner {
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+body.state-splash .sidebar-content {
+  opacity: 0;
+  pointer-events: none;
+}
+body.state-splash .splash-content {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-body.state-sidebar .splash-quote {
-  display: none;
+/* Main Content Wrapper Fix */
+#main-content {
+  flex-grow: 1;
+  width: calc(100% - 280px);
+  position: relative;
+  transition: opacity 0.5s ease 0.3s;
+  height: 100vh;
+  overflow-y: auto; /* Allow normal pages to scroll inside main content */
 }
 
-body.state-splash .sidebar-brand {
+/* Hide scrollbar for main-content for aesthetic if desired, or let it scroll */
+
+body.state-splash #main-content {
+  opacity: 0;
+  pointer-events: none;
   position: absolute;
-  top: 40px;
-  left: 40px;
 }
-
-body.state-splash .sidebar-footer {
-  position: absolute;
-  bottom: 40px;
-}
-
-body.state-splash .sidebar-nav {
-  margin-top: 40px;
-}
-body.state-splash .sidebar-nav ul {
-  flex-direction: row;
-  gap: 30px;
-}
-body.state-splash .sidebar-nav a {
-  font-size: 1.2rem;
-  font-weight: bold;
-  letter-spacing: 0.05em;
-}
-
-.splash-quote {
-  text-align: center;
-}
-.splash-quote h1 {
-  font-family: var(--serif);
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
-  line-height: 1.05;
-  font-weight: 400;
-  margin: 0;
-  color: #fff;
-}
-.splash-quote h1 span {
-  color: #ffb4a2; /* Lighter accent color for dark background */
-  font-style: italic;
-}
-
 /* Main Content */
 #main-content {
   flex-grow: 1;
@@ -436,4 +441,5 @@ body.state-splash #main-content {
     transform: none;
   }
 }
+
 

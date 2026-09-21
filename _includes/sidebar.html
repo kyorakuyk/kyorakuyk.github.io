@@ -1,27 +1,37 @@
-<aside id="sidebar" class="sidebar-splash">
-  <div class="sidebar-inner">
+<aside id="sidebar">
+  <!-- Sidebar State Content (Left aligned) -->
+  <div class="sidebar-inner sidebar-content">
     <div class="sidebar-brand">
       <a href="{{ '/' | relative_url }}">{{ site.title | escape }}</a>
     </div>
 
-    <!-- 巨大的开屏引用语 -->
-    <div class="splash-quote">
-      <h1>Make<br>something<br>real.<br><span>Look twice.</span></h1>
-    </div>
-
-    <!-- 侧边栏导航 -->
     <nav class="sidebar-nav">
       <ul>
-        <li><a href="{{ '/' | relative_url }}#notes" id="nav-notes">Notes</a></li>
+        <li><a href="{{ '/' | relative_url }}" class="nav-notes">Notes</a></li>
         <li><a href="#">Things</a></li>
         <li><a href="{{ '/about/' | relative_url }}">About</a></li>
         <li><a href="{{ '/feed.xml' | relative_url }}">RSS</a></li>
       </ul>
     </nav>
     
-    <!-- 侧边栏底部信息 -->
     <div class="sidebar-footer">
       <p class="tagline">{{ site.description }}</p>
     </div>
+  </div>
+
+  <!-- Splash State Content (Centered) -->
+  <div class="sidebar-inner splash-content">
+    <div class="splash-quote">
+      <h1>Make<br>something<br><span>interesting.</span></h1>
+    </div>
+
+    <nav class="splash-nav">
+      <ul>
+        <li><a href="{{ '/' | relative_url }}" class="nav-notes">Notes</a></li>
+        <li><a href="#">Things</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+        <li><a href="{{ '/feed.xml' | relative_url }}">RSS</a></li>
+      </ul>
+    </nav>
   </div>
 </aside>
