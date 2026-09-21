@@ -159,16 +159,28 @@ code { padding: 0.1em 0.35em; background: var(--paper-deep); font-size: 0.9em; }
 #sidebar {
   flex-shrink: 0;
   width: 280px;
-  background: var(--paper-deep);
-  border-right: 1px solid var(--line);
+  background-color: #111;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url('../img/splash-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  border-right: none;
   transition: width 0.7s cubic-bezier(0.77, 0, 0.175, 1);
   display: flex;
   flex-direction: column;
-  padding: 40px 30px;
   height: 100vh;
   position: sticky;
   top: 0;
   z-index: 100;
+  color: #fff;
+}
+
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 40px 30px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .sidebar-brand {
@@ -177,7 +189,7 @@ code { padding: 0.1em 0.35em; background: var(--paper-deep); font-size: 0.9em; }
   letter-spacing: 0.14em;
   font-size: 0.85rem;
 }
-.sidebar-brand a { text-decoration: none; }
+.sidebar-brand a { text-decoration: none; color: #fff; }
 
 .sidebar-nav ul {
   list-style: none;
@@ -190,20 +202,25 @@ code { padding: 0.1em 0.35em; background: var(--paper-deep); font-size: 0.9em; }
 .sidebar-nav a {
   text-decoration: none;
   font-size: 1.1rem;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s;
 }
 .sidebar-nav a:hover {
-  color: var(--ink);
+  color: #fff;
 }
 
 .sidebar-footer {
   margin-top: auto;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 /* Splash State */
 body.state-splash #sidebar {
   width: 100vw;
-  background: var(--paper);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url('../img/splash-bg.jpg');
+}
+
+body.state-splash .sidebar-inner {
   align-items: center;
   justify-content: center;
   padding: 20px;
@@ -219,29 +236,37 @@ body.state-splash .sidebar-brand {
   left: 40px;
 }
 
-body.state-splash .sidebar-nav, 
 body.state-splash .sidebar-footer {
-  display: none;
-  opacity: 0;
+  position: absolute;
+  bottom: 40px;
+}
+
+body.state-splash .sidebar-nav {
+  margin-top: 40px;
+}
+body.state-splash .sidebar-nav ul {
+  flex-direction: row;
+  gap: 30px;
+}
+body.state-splash .sidebar-nav a {
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
 }
 
 .splash-quote {
   text-align: center;
-  cursor: pointer;
-  transition: transform 0.3s;
-}
-.splash-quote:hover {
-  transform: scale(1.02);
 }
 .splash-quote h1 {
   font-family: var(--serif);
-  font-size: clamp(3rem, 8vw, 6rem);
-  line-height: 1.1;
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  line-height: 1.05;
   font-weight: 400;
   margin: 0;
+  color: #fff;
 }
 .splash-quote h1 span {
-  color: var(--accent);
+  color: #ffb4a2; /* Lighter accent color for dark background */
   font-style: italic;
 }
 
@@ -411,3 +436,4 @@ body.state-splash #main-content {
     transform: none;
   }
 }
+
